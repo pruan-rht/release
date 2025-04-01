@@ -9,24 +9,25 @@ kind: MachineSet
 metadata:
   labels:
     machine.openshift.io/cluster-api-cluster: build10-rlx6g
-  name: build10-rlx6g-ci-tests-worker-amd64-us-east-2a
+  name: build10-rlx6g-infra-amd64-us-east-2a
   namespace: openshift-machine-api
 spec:
   selector:
     matchLabels:
       machine.openshift.io/cluster-api-cluster: build10-rlx6g
-      machine.openshift.io/cluster-api-machineset: build10-rlx6g-ci-tests-worker-amd64-us-east-2a
+      machine.openshift.io/cluster-api-machineset: build10-rlx6g-infra-amd64-us-east-2a
   template:
     metadata:
       labels:
         machine.openshift.io/cluster-api-cluster: build10-rlx6g
-        machine.openshift.io/cluster-api-machine-role: worker
-        machine.openshift.io/cluster-api-machine-type: worker
-        machine.openshift.io/cluster-api-machineset: build10-rlx6g-ci-tests-worker-amd64-us-east-2a
+        machine.openshift.io/cluster-api-machine-role: infra
+        machine.openshift.io/cluster-api-machine-type: infra
+        machine.openshift.io/cluster-api-machineset: build10-rlx6g-infra-amd64-us-east-2a
     spec:
       metadata:
         labels:
-          ci-workload: tests
+          node-role.kubernetes.io: infra
+          node-role.kubernetes.io/infra: ""
       providerSpec:
         value:
           ami:
@@ -35,10 +36,10 @@ spec:
           blockDevices:
           - ebs:
               encrypted: true
-              iops: 5000
+              iops: 0
               kmsKey:
                 arn: ""
-              volumeSize: 400
+              volumeSize: 120
               volumeType: gp3
           credentialsSecret:
             name: aws-cloud-credentials
@@ -70,47 +71,44 @@ spec:
             value: owned
           userDataSecret:
             name: worker-user-data
-      taints:
-      - effect: NoSchedule
-        key: node-role.kubernetes.io/ci-tests-worker
-        value: ci-tests-worker
 ---
 apiVersion: autoscaling.openshift.io/v1beta1
 kind: MachineAutoscaler
 metadata:
-  name: build10-rlx6g-ci-tests-worker-amd64-us-east-2a
+  name: build10-rlx6g-infra-amd64-us-east-2a
   namespace: openshift-machine-api
 spec:
-  maxReplicas: 40
-  minReplicas: 1
+  maxReplicas: 5
+  minReplicas: 0
   scaleTargetRef:
     apiVersion: machine.openshift.io/v1beta1
     kind: MachineSet
-    name: build10-rlx6g-ci-tests-worker-amd64-us-east-2a
+    name: build10-rlx6g-infra-amd64-us-east-2a
 ---
 apiVersion: machine.openshift.io/v1beta1
 kind: MachineSet
 metadata:
   labels:
     machine.openshift.io/cluster-api-cluster: build10-rlx6g
-  name: build10-rlx6g-ci-tests-worker-amd64-us-east-2b
+  name: build10-rlx6g-infra-amd64-us-east-2b
   namespace: openshift-machine-api
 spec:
   selector:
     matchLabels:
       machine.openshift.io/cluster-api-cluster: build10-rlx6g
-      machine.openshift.io/cluster-api-machineset: build10-rlx6g-ci-tests-worker-amd64-us-east-2b
+      machine.openshift.io/cluster-api-machineset: build10-rlx6g-infra-amd64-us-east-2b
   template:
     metadata:
       labels:
         machine.openshift.io/cluster-api-cluster: build10-rlx6g
-        machine.openshift.io/cluster-api-machine-role: worker
-        machine.openshift.io/cluster-api-machine-type: worker
-        machine.openshift.io/cluster-api-machineset: build10-rlx6g-ci-tests-worker-amd64-us-east-2b
+        machine.openshift.io/cluster-api-machine-role: infra
+        machine.openshift.io/cluster-api-machine-type: infra
+        machine.openshift.io/cluster-api-machineset: build10-rlx6g-infra-amd64-us-east-2b
     spec:
       metadata:
         labels:
-          ci-workload: tests
+          node-role.kubernetes.io: infra
+          node-role.kubernetes.io/infra: ""
       providerSpec:
         value:
           ami:
@@ -119,10 +117,10 @@ spec:
           blockDevices:
           - ebs:
               encrypted: true
-              iops: 5000
+              iops: 0
               kmsKey:
                 arn: ""
-              volumeSize: 400
+              volumeSize: 120
               volumeType: gp3
           credentialsSecret:
             name: aws-cloud-credentials
@@ -154,47 +152,44 @@ spec:
             value: owned
           userDataSecret:
             name: worker-user-data
-      taints:
-      - effect: NoSchedule
-        key: node-role.kubernetes.io/ci-tests-worker
-        value: ci-tests-worker
 ---
 apiVersion: autoscaling.openshift.io/v1beta1
 kind: MachineAutoscaler
 metadata:
-  name: build10-rlx6g-ci-tests-worker-amd64-us-east-2b
+  name: build10-rlx6g-infra-amd64-us-east-2b
   namespace: openshift-machine-api
 spec:
-  maxReplicas: 40
-  minReplicas: 1
+  maxReplicas: 5
+  minReplicas: 0
   scaleTargetRef:
     apiVersion: machine.openshift.io/v1beta1
     kind: MachineSet
-    name: build10-rlx6g-ci-tests-worker-amd64-us-east-2b
+    name: build10-rlx6g-infra-amd64-us-east-2b
 ---
 apiVersion: machine.openshift.io/v1beta1
 kind: MachineSet
 metadata:
   labels:
     machine.openshift.io/cluster-api-cluster: build10-rlx6g
-  name: build10-rlx6g-ci-tests-worker-amd64-us-east-2c
+  name: build10-rlx6g-infra-amd64-us-east-2c
   namespace: openshift-machine-api
 spec:
   selector:
     matchLabels:
       machine.openshift.io/cluster-api-cluster: build10-rlx6g
-      machine.openshift.io/cluster-api-machineset: build10-rlx6g-ci-tests-worker-amd64-us-east-2c
+      machine.openshift.io/cluster-api-machineset: build10-rlx6g-infra-amd64-us-east-2c
   template:
     metadata:
       labels:
         machine.openshift.io/cluster-api-cluster: build10-rlx6g
-        machine.openshift.io/cluster-api-machine-role: worker
-        machine.openshift.io/cluster-api-machine-type: worker
-        machine.openshift.io/cluster-api-machineset: build10-rlx6g-ci-tests-worker-amd64-us-east-2c
+        machine.openshift.io/cluster-api-machine-role: infra
+        machine.openshift.io/cluster-api-machine-type: infra
+        machine.openshift.io/cluster-api-machineset: build10-rlx6g-infra-amd64-us-east-2c
     spec:
       metadata:
         labels:
-          ci-workload: tests
+          node-role.kubernetes.io: infra
+          node-role.kubernetes.io/infra: ""
       providerSpec:
         value:
           ami:
@@ -203,10 +198,10 @@ spec:
           blockDevices:
           - ebs:
               encrypted: true
-              iops: 5000
+              iops: 0
               kmsKey:
                 arn: ""
-              volumeSize: 400
+              volumeSize: 120
               volumeType: gp3
           credentialsSecret:
             name: aws-cloud-credentials
@@ -238,20 +233,16 @@ spec:
             value: owned
           userDataSecret:
             name: worker-user-data
-      taints:
-      - effect: NoSchedule
-        key: node-role.kubernetes.io/ci-tests-worker
-        value: ci-tests-worker
 ---
 apiVersion: autoscaling.openshift.io/v1beta1
 kind: MachineAutoscaler
 metadata:
-  name: build10-rlx6g-ci-tests-worker-amd64-us-east-2c
+  name: build10-rlx6g-infra-amd64-us-east-2c
   namespace: openshift-machine-api
 spec:
-  maxReplicas: 40
-  minReplicas: 1
+  maxReplicas: 5
+  minReplicas: 0
   scaleTargetRef:
     apiVersion: machine.openshift.io/v1beta1
     kind: MachineSet
-    name: build10-rlx6g-ci-tests-worker-amd64-us-east-2c
+    name: build10-rlx6g-infra-amd64-us-east-2c
